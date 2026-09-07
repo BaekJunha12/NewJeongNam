@@ -8,5 +8,8 @@ def my_function2():
 
 
 def my_function3():
-    return "doyoon"
+    a = int(input())
+    return a+1
+
+    
 
