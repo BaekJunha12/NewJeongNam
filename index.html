@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>룸메이트 매칭</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+<div id="app">
+
+    <!-- =========================
+         1. 시작 화면
+    ========================== -->
+    <section class="page active" id="page1">
+
+        <div class="welcome-container">
+
+            <div class="house-area">
+                <img
+                    src="./images/house.png"
+                    class="house-image"
+                    alt="집 이미지"
+                >
+            </div>
+
+            <button
+                class="main-button"
+                onclick="goToPage(2)"
+            >
+                프로필 만들기
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         2. 안내
+    ========================== -->
+    <section
+        class="page intro-page"
+        id="page2"
+        onclick="goToPage(3)"
+    >
+
+        <h1>
+            시작하기 전에<br>
+            몇 가지만 물어볼게요.
+        </h1>
+
+        <p>
+            화면을 클릭하면 바로 시작할 수 있어요.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         3. 성별
+    ========================== -->
+    <section class="page" id="page3">
+
+        <div class="question-container">
+
+            <h1>
+                사용자님의 성별은 무엇인가요?
+            </h1>
+
+            <div class="choice-row">
+
+                <button
+                    type="button"
+                    class="choice-button"
+                    onclick="selectGender('남', this)"
+                >
+                    남성
+                </button>
+
+                <button
+                    type="button"
+                    class="choice-button"
+                    onclick="selectGender('여', this)"
+                >
+                    여성
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="navigation right-only">
+
+            <button
+                id="genderNext"
+                class="next-button"
+                disabled
+                onclick="goToPage(4)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         4. 생년월일
+    ========================== -->
+    <section class="page" id="page4">
+
+        <div class="question-container">
+
+            <h1>
+                사용자님의 생년월일을 알려주세요
+            </h1>
+
+            <input
+                type="date"
+                id="birthDate"
+                class="date-input"
+                onchange="validateBirthDate()"
+            >
+
+        </div>
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(3)"
+            >
+                이전
+            </button>
+
+            <button
+                id="birthNext"
+                class="next-button"
+                disabled
+                onclick="goToPage(5)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         5. 거주기간
+    ========================== -->
+    <section class="page" id="page5">
+
+        <div class="question-container">
+
+            <h1>
+                희망 거주기간을 알려주세요
+            </h1>
+
+            <div class="range-display">
+
+                <span id="stayMinText">6개월</span>
+
+                <span>~</span>
+
+                <span id="stayMaxText">2년</span>
+
+            </div>
+
+
+            <div class="range-slider">
+
+                <div class="slider-track"></div>
+
+                <div
+                    class="slider-selected-range"
+                    id="staySelectedRange"
+                ></div>
+
+                <input
+                    type="range"
+                    id="stayMin"
+                    min="6"
+                    max="60"
+                    step="6"
+                    value="6"
+                >
+
+                <input
+                    type="range"
+                    id="stayMax"
+                    min="6"
+                    max="60"
+                    step="6"
+                    value="24"
+                >
+
+            </div>
+
+
+            <div class="slider-labels">
+
+                <span>6개월</span>
+
+                <span>5년</span>
+
+            </div>
+
+
+            <label class="checkbox-area">
+
+                <input
+                    type="checkbox"
+                    id="stayHardFilter"
+                >
+
+                <span>
+                    이 범위를 벗어나는 사람은 추천하지 않기
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(4)"
+            >
+                이전
+            </button>
+
+            <button
+                class="next-button"
+                onclick="goToPage(6)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         6. 예산
+    ========================== -->
+    <section class="page" id="page6">
+
+        <div class="question-container">
+
+            <h1>
+                희망 예산을 알려주세요
+            </h1>
+
+
+            <div class="range-display">
+
+                <span id="budgetMinText">
+                    30만원
+                </span>
+
+                <span>~</span>
+
+                <span id="budgetMaxText">
+                    80만원
+                </span>
+
+            </div>
+
+
+            <div class="range-slider">
+
+                <div class="slider-track"></div>
+
+                <div
+                    class="slider-selected-range"
+                    id="budgetSelectedRange"
+                ></div>
+
+                <input
+                    type="range"
+                    id="budgetMin"
+                    min="10"
+                    max="200"
+                    step="10"
+                    value="30"
+                >
+
+                <input
+                    type="range"
+                    id="budgetMax"
+                    min="10"
+                    max="200"
+                    step="10"
+                    value="80"
+                >
+
+            </div>
+
+
+            <div class="slider-labels">
+
+                <span>10만원</span>
+
+                <span>200만원</span>
+
+            </div>
+
+
+            <label class="checkbox-area">
+
+                <input
+                    type="checkbox"
+                    id="budgetHardFilter"
+                >
+
+                <span>
+                    이 범위를 벗어나는 사람은 추천하지 않기
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(5)"
+            >
+                이전
+            </button>
+
+            <button
+                class="next-button"
+                onclick="goToPage(7)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         7. 지역
+    ========================== -->
+    <section class="page" id="page7">
+
+        <div class="question-container">
+
+            <h1>
+                희망 거주 지역을 선택해주세요
+            </h1>
+
+            <div class="region-select-area">
+
+                <label for="regionFirst">
+                    1순위
+                </label>
+
+                <select
+                    id="regionFirst"
+                    onchange="validateRegions()"
+                ></select>
+
+
+                <label for="regionSecond">
+                    2순위
+                </label>
+
+                <select
+                    id="regionSecond"
+                    onchange="validateRegions()"
+                ></select>
+
+
+                <label for="regionThird">
+                    3순위
+                </label>
+
+                <select
+                    id="regionThird"
+                    onchange="validateRegions()"
+                ></select>
+
+            </div>
+
+
+            <label class="checkbox-area">
+
+                <input
+                    type="checkbox"
+                    id="regionHardFilter"
+                >
+
+                <span>
+                    선호 지역이 아니면 추천을 받지 않겠습니다
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(6)"
+            >
+                이전
+            </button>
+
+            <button
+                id="regionNext"
+                class="next-button"
+                disabled
+                onclick="goToPage(8)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         8. 교류 정도
+    ========================== -->
+    <section class="page" id="page8">
+
+        <div class="question-container">
+
+            <h1>
+                다른 입주자들과 어느 정도로<br>
+                교류하고 싶나요?
+            </h1>
+
+
+            <div class="radio-list">
+
+                <label>
+                    <input
+                        type="radio"
+                        name="social"
+                        value="1"
+                        onchange="validateSocial()"
+                    >
+                    <span>
+                        1. 거의 각자 생활
+                    </span>
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="social"
+                        value="2"
+                        onchange="validateSocial()"
+                    >
+                    <span>
+                        2. 필요한 대화만
+                    </span>
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="social"
+                        value="3"
+                        onchange="validateSocial()"
+                    >
+                    <span>
+                        3. 가끔 같이 식사/대화
+                    </span>
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="social"
+                        value="4"
+                        onchange="validateSocial()"
+                    >
+                    <span>
+                        4. 자주 같이 시간 보내기
+                    </span>
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="social"
+                        value="5"
+                        onchange="validateSocial()"
+                    >
+                    <span>
+                        5. 친구처럼 친하게 지내기
+                    </span>
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(7)"
+            >
+                이전
+            </button>
+
+            <button
+                id="socialNext"
+                class="next-button"
+                disabled
+                onclick="goToPage(9)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         9. 소음 민감도
+    ========================== -->
+    <section class="page" id="page9">
+
+        <div class="question-container">
+
+            <h1>
+                소음 민감도를 선택해주세요
+            </h1>
+
+
+            <div class="radio-list">
+
+                <label>
+                    <input
+                        type="radio"
+                        name="noise"
+                        value="1"
+                        onchange="validateNoise()"
+                    >
+                    <span>
+                        1. 거의 신경쓰지 않음
+                    </span>
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="noise"
+                        value="2"
+                        onchange="validateNoise()"
+                    >
+                    <span>
+                        2. 약간의 소음은 괜찮음
+                    </span>
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="noise"
+                        value="3"
+                        onchange="validateNoise()"
+                    >
+                    <span>
+                        3. 보통
+                    </span>
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="noise"
+                        value="4"
+                        onchange="validateNoise()"
+                    >
+                    <span>
+                        4. 조용한 환경을 선호
+                    </span>
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="noise"
+                        value="5"
+                        onchange="validateNoise()"
+                    >
+                    <span>
+                        5. 작은 생활 소음에도 민감
+                    </span>
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(8)"
+            >
+                이전
+            </button>
+
+            <button
+                id="noiseNext"
+                class="next-button"
+                disabled
+                onclick="goToPage(10)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         10. 수면 시간
+    ========================== -->
+    <section class="page" id="page10">
+
+        <div class="question-container">
+
+            <h1>
+                평소 수면 시간을 알려주세요
+            </h1>
+
+            <p class="description">
+                평소 잠드는 시간을 선택해주세요.<br>
+                선택한 시간을 기준으로 2시간 범위가 설정됩니다.
+            </p>
+
+            <input
+                type="time"
+                id="sleepStartInput"
+                class="time-input"
+                step="1800"
+                onchange="updateSleepTime()"
+            >
+
+            <div
+                id="sleepResult"
+                class="sleep-result"
+            >
+                수면 시간을 선택해주세요
+            </div>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(9)"
+            >
+                이전
+            </button>
+
+            <button
+                id="sleepNext"
+                class="next-button"
+                disabled
+                onclick="goToPage(11)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         11. 본인 흡연 여부
+    ========================== -->
+    <section class="page" id="page11">
+
+        <div class="question-container">
+
+            <h1>
+                흡연 여부를 알려주세요
+            </h1>
+
+
+            <div class="choice-row">
+
+                <button
+                    type="button"
+                    class="choice-button smoking-button"
+                    onclick="selectSmoking(true, this)"
+                >
+                    흡연
+                </button>
+
+                <button
+                    type="button"
+                    class="choice-button smoking-button"
+                    onclick="selectSmoking(false, this)"
+                >
+                    비흡연
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(10)"
+            >
+                이전
+            </button>
+
+            <button
+                id="smokingNext"
+                class="next-button"
+                disabled
+                onclick="goToPage(12)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         12. 선호 성별
+    ========================== -->
+    <section class="page" id="page12">
+
+        <div class="question-container">
+
+            <p class="section-label">
+                선호도 설정
+            </p>
+
+            <h1>
+                어떤 성별의 입주자를 선호하시나요?
+            </h1>
+
+
+            <div class="three-choice-row">
+
+                <button
+                    type="button"
+                    class="choice-button preferred-gender-button"
+                    onclick="selectPreferredGender('남', this)"
+                >
+                    남성
+                </button>
+
+                <button
+                    type="button"
+                    class="choice-button preferred-gender-button"
+                    onclick="selectPreferredGender('여', this)"
+                >
+                    여성
+                </button>
+
+                <button
+                    type="button"
+                    class="choice-button preferred-gender-button"
+                    onclick="selectPreferredGender('상관없음', this)"
+                >
+                    상관없음
+                </button>
+
+            </div>
+
+
+            <label class="checkbox-area">
+
+                <input
+                    type="checkbox"
+                    id="genderHardFilter"
+                >
+
+                <span>
+                    선호 성별이 아니면 추천을 받지 않겠습니다
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(11)"
+            >
+                이전
+            </button>
+
+            <button
+                id="preferredGenderNext"
+                class="next-button"
+                disabled
+                onclick="goToPage(13)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         13. 선호 나이
+    ========================== -->
+    <section class="page" id="page13">
+
+        <div class="question-container">
+
+            <p class="section-label">
+                선호도 설정
+            </p>
+
+            <h1>
+                함께 살기 괜찮은 나이 범위를 알려주세요
+            </h1>
+
+
+            <div class="range-display">
+
+                <span id="ageMinText">
+                    20세
+                </span>
+
+                <span>~</span>
+
+                <span id="ageMaxText">
+                    30세
+                </span>
+
+            </div>
+
+
+            <div class="range-slider">
+
+                <div class="slider-track"></div>
+
+                <div
+                    class="slider-selected-range"
+                    id="ageSelectedRange"
+                ></div>
+
+                <input
+                    type="range"
+                    id="ageMin"
+                    min="18"
+                    max="40"
+                    step="1"
+                    value="20"
+                >
+
+                <input
+                    type="range"
+                    id="ageMax"
+                    min="18"
+                    max="40"
+                    step="1"
+                    value="30"
+                >
+
+            </div>
+
+
+            <div class="slider-labels">
+
+                <span>18세</span>
+
+                <span>40세</span>
+
+            </div>
+
+
+            <label class="checkbox-area">
+
+                <input
+                    type="checkbox"
+                    id="ageHardFilter"
+                >
+
+                <span>
+                    선호 연령대가 아니면 추천을 받지 않겠습니다
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(12)"
+            >
+                이전
+            </button>
+
+            <button
+                class="next-button"
+                onclick="goToPage(14)"
+            >
+                다음
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         14. 흡연 선호
+    ========================== -->
+    <section class="page" id="page14">
+
+        <div class="question-container">
+
+            <p class="section-label">
+                선호도 설정
+            </p>
+
+            <h1>
+                흡연자와 함께 생활하는 것에 대해<br>
+                어떻게 생각하시나요?
+            </h1>
+
+
+            <div class="radio-list">
+
+                <label>
+                    <input
+                        type="radio"
+                        name="smokingPreference"
+                        value="0"
+                        onchange="validateSmokingPreference()"
+                    >
+
+                    <span>
+                        <strong>0점</strong>
+                        흡연자와는 함께 생활하기 어려워요
+                    </span>
+                </label>
+
+
+                <label>
+                    <input
+                        type="radio"
+                        name="smokingPreference"
+                        value="1"
+                        onchange="validateSmokingPreference()"
+                    >
+
+                    <span>
+                        <strong>1점</strong>
+                        가능하면 비흡연자였으면 좋겠어요
+                    </span>
+                </label>
+
+
+                <label>
+                    <input
+                        type="radio"
+                        name="smokingPreference"
+                        value="2"
+                        onchange="validateSmokingPreference()"
+                    >
+
+                    <span>
+                        <strong>2점</strong>
+                        실내에서만 피우지 않는다면 괜찮아요
+                    </span>
+                </label>
+
+
+                <label>
+                    <input
+                        type="radio"
+                        name="smokingPreference"
+                        value="3"
+                        onchange="validateSmokingPreference()"
+                    >
+
+                    <span>
+                        <strong>3점</strong>
+                        흡연 여부가 크게 중요하지 않아요
+                    </span>
+                </label>
+
+
+                <label>
+                    <input
+                        type="radio"
+                        name="smokingPreference"
+                        value="4"
+                        onchange="validateSmokingPreference()"
+                    >
+
+                    <span>
+                        <strong>4점</strong>
+                        흡연 여부는 전혀 상관없어요
+                    </span>
+                </label>
+
+            </div>
+
+
+            <p class="small-info">
+                0점을 선택하면 흡연자는 추천 대상에서 제외됩니다.
+            </p>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="back-button"
+                onclick="goToPage(13)"
+            >
+                이전
+            </button>
+
+            <button
+                id="preferenceFinishButton"
+                class="next-button"
+                disabled
+                onclick="finishSurvey()"
+            >
+                추천 보기
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         15. 추천 결과
+    ========================== -->
+    <section class="page" id="page15">
+
+        <div class="recommendation-container">
+
+            <div class="recommendation-header">
+
+                <p class="section-label">
+                    추천 입주자
+                </p>
+
+                <h1>
+                    사용자님과 잘 맞는<br>
+                    입주자를 찾았어요.
+                </h1>
+
+            </div>
+
+
+            <div class="recommendation-area">
+
+                <button
+                    type="button"
+                    class="profile-arrow left-arrow"
+                    onclick="previousRecommendation()"
+                >
+                    ‹
+                </button>
+
+
+                <div
+                    class="profile-card"
+                    id="profileCard"
+                >
+
+                    <div class="profile-card-top">
+
+                        <div class="profile-avatar">
+                            👤
+                        </div>
+
+                        <div>
+
+                            <h2 id="cardName">
+                                김민수
+                            </h2>
+
+                            <p id="cardBasicInfo">
+                                남성 · 22세
+                            </p>
+
+                        </div>
+
+
+                        <div class="match-score">
+
+                            <span id="cardScore">
+                                92
+                            </span>
+
+                            <small>
+                                % 적합
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="match-progress">
+
+                        <div
+                            class="match-progress-fill"
+                            id="matchProgressFill"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="profile-info-grid">
+
+                        <div class="info-item">
+
+                            <span class="info-title">
+                                희망 지역
+                            </span>
+
+                            <span id="cardRegion">
+                                성북구
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-title">
+                                예산
+                            </span>
+
+                            <span id="cardBudget">
+                                50~70만원
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-title">
+                                거주기간
+                            </span>
+
+                            <span id="cardStay">
+                                6~12개월
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-title">
+                                교류 성향
+                            </span>
+
+                            <span id="cardSocial">
+                                4 / 5
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-title">
+                                소음 민감도
+                            </span>
+
+                            <span id="cardNoise">
+                                2 / 5
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-title">
+                                흡연
+                            </span>
+
+                            <span id="cardSmoking">
+                                비흡연
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="match-reason">
+
+                        <h3>
+                            잘 맞는 점
+                        </h3>
+
+                        <ul id="cardReasons">
+                        </ul>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="profile-arrow right-arrow"
+                    onclick="nextRecommendation()"
+                >
+                    ›
+                </button>
+
+            </div>
+
+
+            <p
+                class="profile-counter"
+                id="profileCounter"
+            >
+                1 / 3
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
